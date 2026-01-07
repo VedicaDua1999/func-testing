@@ -1,5 +1,5 @@
 {
-  "scriptFile": "test.py",
+  "scriptFile": "app.py",
   "bindings": [
     {
       "authLevel": "anonymous",

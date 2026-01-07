@@ -13,4 +13,4 @@ COPY . .
 
 EXPOSE 8081
 
-CMD ["python", "test.py"]
+CMD ["python", "app.py"]

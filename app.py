@@ -1,5 +1,7 @@
-from flask import Flask
+from flask import Flask, Response
+import azure.functions as func
 import os
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -11,5 +13,5 @@ def hello():
     <p>Container App: Ready! ✅</p>
     """
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    return func.WsgiMiddleware(app).handle(req, req.context) 
