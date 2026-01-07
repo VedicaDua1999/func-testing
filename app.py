@@ -1,6 +1,8 @@
 from flask import Flask, Response
 import azure.functions as func
 import os
+import logging
+
 
 app = Flask(__name__)
 
@@ -14,4 +16,7 @@ def hello():
     """
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    return func.WsgiMiddleware(app).handle(req, req.context) 
+    # return func.WsgiMiddleware(app).handle(req, req.context) 
+    logging.info('Python HTTP trigger function processed a request.')
+    return func.HttpResponse("Hello from Functions!", status_code=200)
+
