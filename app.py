@@ -6,7 +6,7 @@ import logging
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/health')
 def hello():
     return f"""
     <h1>🚀 Dummy Python App</h1>
