@@ -5,7 +5,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/api/rust":
-            response = {"message": "Auth service working"}
+            response = {"message": "rust service working"}
         else:
             response = {"message": "Unknown route"}
 
