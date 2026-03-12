@@ -1,22 +1,27 @@
-from flask import Flask, Response
-import azure.functions as func
 import os
-import logging
+import json
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/api/rust":
+            response = {"message": "Auth service working"}
+        else:
+            response = {"message": "Unknown route"}
 
-app = Flask(__name__)
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(json.dumps(response).encode())
 
-@app.route('/health')
-def hello():
-    return f"""
-    <h1>🚀 Dummy Python App</h1>
-    <p>Build ID: {os.environ.get('BUILD_ID', 'local')}</p>
-    <p>Image Tag: {os.environ.get('IMAGE_TAG', 'latest')}</p>
-    <p>Container App: Ready! ✅</p>
-    """
+def run():
+    port = int(os.environ.get("FUNCTIONS_CUSTOMHANDLER_PORT", os.environ.get("PORT", 8080)))
+    server_address = ("0.0.0.0", port)
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
-    # return func.WsgiMiddleware(app).handle(req, req.context) 
-    logging.info('Python HTTP trigger function processed a request.')
-    return func.HttpResponse("Hello from Functions!", status_code=200)
+    httpd = HTTPServer(server_address, Handler)
+    print(f"Server running on port {port}")
+    httpd.serve_forever()
+
+if __name__ == "__main__":
+    run()
 
